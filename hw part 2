@@ -1,0 +1,24 @@
+# API endpoints
+ 
+# GET all tires from inventory
+@app.route('/api/inventory', methods=['GET'])
+def get_inventory():
+    query = "SELECT * FROM cis3368springdb.inventory"
+    results = execute_read_query(connection, query)
+    return jsonify(results)
+ 
+# POST: Add a new tire to inventory
+@app.route('/api/inventory', methods=['POST'])
+def add_tire():
+    new_tire = request.json
+    brand = new_tire['brand']
+    model = new_tire['model']
+    loadrating = new_tire['loadrating']
+    speedrating = new_tire['speedrating']
+    tire_type = new_tire['type']
+    stock = new_tire['stock']
+    query = "INSERT INTO inventory (brand, model, loadrating, speedrating, type, stock) VALUES (%s, %s, %s, %s, %s, %s)"
+    values = (brand, model, loadrating, speedrating, tire_type, stock)
+    execute_query(connection, query, values)
+    return 'Tire added to inventory', 201
+ 
