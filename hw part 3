@@ -1,0 +1,19 @@
+# PUT: Update the stock column of a tire by id
+@app.route('/api/inventory/<int:id>', methods=['PUT'])
+def update_stock(id):
+    updated_stock = request.json['stock']
+    query = "UPDATE inventory SET stock = %s WHERE id = %s"
+    values = (updated_stock, id)
+    execute_query(connection, query, values)
+    return 'Stock updated successfully'
+ 
+# DELETE: Delete a tire by id
+@app.route('/api/inventory/<int:id>', methods=['DELETE'])
+def delete_tire(id):
+    query = "DELETE FROM inventory WHERE id = %s"
+    values = (id,)
+    execute_query(connection, query, values)
+    return 'Tire deleted from inventory'
+ 
+if __name__ == '__main__':
+    app.run()
